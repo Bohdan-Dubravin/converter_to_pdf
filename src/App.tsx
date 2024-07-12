@@ -1,73 +1,58 @@
-import axios from "axios";
 import { useState } from "react";
 import { Sidebar } from "./components/sidebar";
-import PDFIndexedDB from "./utils/db-manager";
+
 import PdfPreview from "./pdf-preview";
 import { pdfjs } from "react-pdf";
+import usePdf from "./utils/hooks/usePdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
-// Rest of code.
-const apikey = "78684310-850d-427a-8432-4a6487f6dbc4";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 function App() {
   const [text, setText] = useState("");
-  const [pdftoPreview, setPdfToPreview] = useState<Blob | null>(null);
   const changeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
-  const pdfIndexedDb = new PDFIndexedDB();
 
-  const createPdf = async () => {
-    if (!text.trim()) return;
-    try {
-      const response = await axios.post(
-        `http://95.217.134.12:4010/create-pdf?apiKey=${apikey}`,
-        { text },
-        {
-          responseType: "arraybuffer",
-        }
-      );
-      // const url = new Blob([response.data], { type: "application/pdf" });
-      pdfIndexedDb.addPDF(response.data);
+  const { pdfToPreview, pdfList, setPdfToPreview, createPdf } = usePdf();
 
-      // axios
-      //   .post(
-      //     `http://95.217.134.12:4010/create-pdf?apiKey=${apikey}`,
-      //     { text },
-      //     {
-      //       responseType: "arraybuffer",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Accept: "application/pdf",
-      //       },
-      //     }
-      //   )
-      //   .then((response) => {
-      //     const url = new Blob([response.data], { type: "application/pdf" });
-      //     pdfIndexedDb.addPDF(url);
-      //   })
-      //   .catch((error) => console.log(error));
-      // const sampleArr = base64ToArrayBuffer(response.data);
-      // fetchAndSavePDF("Sample Report", response.data);
-    } catch (error) {
-      console.log(error);
+  const handleClick = () => {
+    if (text.trim()) {
+      createPdf(text);
+      setText("");
     }
   };
 
   return (
     <>
-      <header className="border-b border-gray-300 py-4">header</header>
+      <header className="border-b border-gray-300 py-4">
+        header
+        <button
+          className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold text-xl rounded-md text-white transition-colors duration-300"
+          onClick={() => setPdfToPreview(null)}
+        >
+          new pdf
+        </button>
+      </header>
       <div className="flex h-screen">
-        <Sidebar setPdfPreview={setPdfToPreview} />
-        <div className="p-2">
-          <textarea className="border resize-none w-[400px] h-[200px]" value={text} onChange={changeText}></textarea>
-          <button
-            className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold text-xl rounded-md text-white transition-colors duration-300"
-            onClick={createPdf}
-          >
-            createPdf
-          </button>
-          {/* <PDFViewer pdfUrl={pdftoPreview} /> */}
-          <PdfPreview pdf={pdftoPreview} />
+        <Sidebar setPdfPreview={setPdfToPreview} pdfList={pdfList} />
+        <div className="p-2 flex items-center justify-center h-full w-full ">
+          {pdfToPreview ? (
+            <PdfPreview pdf={pdfToPreview} />
+          ) : (
+            <div>
+              <textarea
+                className="border resize-none w-[400px] h-[200px]"
+                value={text}
+                onChange={changeText}
+              ></textarea>
+              <button
+                className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold text-xl rounded-md text-white transition-colors duration-300"
+                onClick={handleClick}
+              >
+                createPdf
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

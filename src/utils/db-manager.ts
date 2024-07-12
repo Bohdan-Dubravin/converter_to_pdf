@@ -42,14 +42,15 @@ class PDFIndexedDB {
     return this.db;
   }
 
-  public async addPDF(file: Blob): Promise<PDFEntry> {
+  public async addPDF({ text, file }: { text: string; file: File }): Promise<PDFEntry> {
     const db = await this.initializeDatabase();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, "readwrite");
       const objectStore = transaction.objectStore(STORE_NAME);
-
+      const title = text.length > 15 ? text.substring(0, 15) + "..." : text;
       const pdfEntry: PDFEntry = {
         id: uuidv4(),
+        title,
         file: file,
         createdDate: new Date(),
       };
@@ -70,17 +71,6 @@ class PDFIndexedDB {
       request.onsuccess = (event) => resolve((event.target as IDBRequest).result);
       request.onerror = (event) => reject((event.target as IDBRequest).error);
     });
-  }
-
-  public async addPDFStringData(data: string): Promise<PDFEntry> {
-    const byteCharacters = atob(data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "application/pdf" });
-    return this.addPDF(blob);
   }
 }
 
