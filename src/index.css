@@ -1,5 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @import url("bulma/css/bulma.css");
-@import url("material-design-icons/iconfont/material-icons.css"); */
+
+.main {
+  height: calc(100vh - 78px);
+}

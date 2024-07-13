@@ -27,6 +27,8 @@ const usePdf = () => {
       );
 
       await pdfIndexedDb.addPDF({ text, file: response.data });
+
+      setPdfToPreview(response.data);
       getPdf();
     } catch (error) {
       console.log(error);

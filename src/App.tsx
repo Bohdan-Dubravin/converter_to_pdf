@@ -24,37 +24,38 @@ function App() {
 
   return (
     <>
-      <header className="border-b border-gray-300 py-4">
-        header
+      <header className="border-b border-gray-400 py-4 flex justify-between items-center px-2 shadow-bottom-shadow">
+        <h1 className="text-rose-500 uppercase font-bold text-3xl ">Pdf creator</h1>
         <button
           className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold text-xl rounded-md text-white transition-colors duration-300"
           onClick={() => setPdfToPreview(null)}
         >
-          new pdf
+          New Pdf
         </button>
       </header>
-      <div className="flex h-screen">
+      <main className="flex main">
         <Sidebar setPdfPreview={setPdfToPreview} pdfList={pdfList} />
-        <div className="p-2 flex items-center justify-center h-full w-full ">
+        <div className="p-2 flex items-center justify-center h-full w-full">
           {pdfToPreview ? (
             <PdfPreview pdf={pdfToPreview} />
           ) : (
             <div>
               <textarea
-                className="border resize-none w-[400px] h-[200px]"
+                className=" resize-none w-[800px] h-[600px] outline-none border border-zinc-500 rounded p-2"
+                placeholder="Write your text here"
                 value={text}
                 onChange={changeText}
               ></textarea>
               <button
-                className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold text-xl rounded-md text-white transition-colors duration-300"
+                className="block bg-rose-500 hover:bg-rose-600 py-2 px-4 font-bold mt-4 text-xl rounded-md text-white ml-auto transition-colors duration-300"
                 onClick={handleClick}
               >
-                createPdf
+                Create Pdf
               </button>
             </div>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }
