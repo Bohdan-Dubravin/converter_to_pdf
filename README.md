@@ -13,9 +13,9 @@ pdf-app/
 │ ├── providers/
 │ │ └── PdfProvider.tsx # Context provider that contain PDF documents manipulations across wrapped components
 │ ├── types/ # TS types for project
-│ │ └── pdf.js
+│ │ ├── pdf.js
 │ ├── view/
-│ │ └── main-view.tsx # Components Wrapper
+│ │ ├── main-view.tsx # Components Wrapper
 │ ├── utils/
 │ │ ├── db-manager.ts # Class for operations with indexedDb
 │ │ └── db-manager.ts # converts date do readable format
