@@ -1,6 +1,6 @@
-import usePdfContext from "../utils/hooks/usePdf";
-import CreatePdfForm from "../components/create-pdf-form/create-pdf-form";
 import { fireEvent, render, screen } from "@testing-library/react";
+import usePdfContext from "../../utils/hooks/usePdf";
+import CreatePdfForm from "./create-pdf-form";
 
 jest.mock("../../utils/hooks/usePdf");
 
@@ -17,22 +17,22 @@ describe("CreatePdfForm", () => {
     jest.clearAllMocks();
   });
 
-  test("updates text area value", () => {
+  test("should update text area value", () => {
     render(<CreatePdfForm />);
     const textarea = screen.getByPlaceholderText("Write your text here");
-    fireEvent.change(textarea, { target: { value: "Hello, world!" } });
-    expect(textarea).toHaveValue("Hello, world!");
+    fireEvent.change(textarea, { target: { value: "Test text" } });
+    expect(textarea).toHaveValue("Test text");
   });
 
-  test("calls createPdf on button click", () => {
+  test("should call createPdf on button click", () => {
     render(<CreatePdfForm />);
     const textarea = screen.getByPlaceholderText("Write your text here");
     const button = screen.getByText("Create Pdf");
 
-    fireEvent.change(textarea, { target: { value: "Hello, world!" } });
+    fireEvent.change(textarea, { target: { value: "Test text" } });
     fireEvent.click(button);
 
-    expect(mockCreatePdf).toHaveBeenCalledWith("Hello, world!");
+    expect(mockCreatePdf).toHaveBeenCalledWith("Test text");
   });
 
   test("clears text area on button click", () => {

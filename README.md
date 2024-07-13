@@ -1,32 +1,28 @@
-# React + TypeScript + Vite
+Project structure
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-  // "bulma": "^1.0.1",
-  // "pdf-viewer-reactjs": "^2.2.3",
+pdf-app/
+├── public/
+│ ├── index.html # Main HTML file serving as the entry point
+├── src/
+│ ├── components/
+│ │ ├── create-pdf-form # Form component for creating new PDF documents and test
+│ │ ├── header # Header component for navigation
+│ │ ├── pdf-preview # Pdf-preview component that displays selected PDF document and test
+│ │ ├── sidebar # Sidebar component renders list history of created PDF documents and select PDF document FOR rendering.
+│ │ └── Loader # Simple spinner loader
+│ ├── providers/
+│ │ └── PdfProvider.tsx # Context provider that contain PDF documents manipulations across wrapped components
+│ ├── types/ # TS types for project
+│ │ └── pdf.js
+│ ├── view/
+│ │ └── main-view.tsx # Components Wrapper
+│ ├── utils/
+│ │ ├── db-manager.ts # Class for operations with indexedDb
+│ │ └── db-manager.ts # converts date do readable format
+│ ├── App.tsx # Main application component
+│ ├── index.tsx # Entry point for React application
+│ └── index.css # main css entry file
+├── .gitignore # Git ignore file
+├── package.json # Project configuration and dependencies
+├── ...configurations files for libs and compilers
+└── README.md

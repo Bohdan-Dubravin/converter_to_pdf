@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode, useCallback } from "react";
 import axios from "axios";
 import { PDFEntry } from "../types/pdf";
 import PDFIndexedDB from "../utils/db-manager";
@@ -21,16 +21,19 @@ interface PdfProviderProps {
 export const PdfProvider: React.FC<PdfProviderProps> = ({ children }) => {
   const [pdfToPreview, setPdfToPreview] = useState<ArrayBuffer | null>(null);
   const [pdfList, setPdfList] = useState<PDFEntry[]>([]);
+
+  // requires for some error handling and prevent caching
+  // eslint-disable-next-line
   const pdfIndexedDb = new PDFIndexedDB();
 
-  const getPdf = async () => {
+  const getPdf = useCallback(async () => {
     const pdfList = await pdfIndexedDb.getAllPDFs();
     setPdfList(pdfList);
-  };
+  }, [pdfIndexedDb]);
 
   useEffect(() => {
     getPdf();
-  }, []);
+  }, [getPdf]);
 
   const createPdf = async (text: string) => {
     try {
