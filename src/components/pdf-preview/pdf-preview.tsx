@@ -1,33 +1,40 @@
-import { useState } from "react";
-import { pdfjs, Document, Page } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
+import { useEffect, useState } from "react";
+import { Document, Page } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+import Loader from "../loader";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
 interface Props {
-  pdf?: string | null;
+  pdf: ArrayBuffer;
 }
-const PdfPreview = ({ pdf }: Props) => {
-  const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
-  }
+const PdfViewer = ({ pdf }: Props) => {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+  }, [pdf]);
+
+  const onDocumentLoadSuccess = () => {
+    setLoading(false);
+  };
+
   return (
-    <div style={{ height: "750px" }}>
-      {pdf && (
-        <div>
-          <Document file="somefile.pdf" onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} />
-          </Document>
-          <p>
-            Page {pageNumber} of {numPages}
-          </p>
-        </div>
+    <div>
+      {pdf ? (
+        <Document
+          className={!loading ? "shadow-xl border" : ""}
+          file={pdf}
+          loading={<Loader />}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={(e) => console.log(e)}
+        >
+          <Page pageNumber={1} />
+        </Document>
+      ) : (
+        <Loader />
       )}
     </div>
   );
 };
 
-export default PdfPreview;
+export default PdfViewer;

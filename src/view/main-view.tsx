@@ -1,6 +1,7 @@
-import CreatePdfForm from "../components/create-pdf-form/create-pdf-form";
+import { CreatePdfForm } from "../components/create-pdf-form";
+import { PdfPreview } from "../components/pdf-preview";
 import { Sidebar } from "../components/sidebar";
-import PdfPreview from "../pdf-preview";
+
 import usePdfContext from "../utils/hooks/usePdf";
 
 const MainView = () => {
