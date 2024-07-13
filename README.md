@@ -1,5 +1,6 @@
 # Project Structure
 
+```bash
 pdf-app/
 ├── public/
 │ └── index.html # Main HTML file serving as the entry point
@@ -26,3 +27,4 @@ pdf-app/
 ├── package.json # Project configuration and dependencies
 ├── ... # Configuration files for libraries and compilers
 └── README.md # Project documentation
+```
