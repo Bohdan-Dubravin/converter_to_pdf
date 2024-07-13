@@ -1,6 +1,6 @@
 export interface PDFEntry {
   id: string;
   title: string;
-  file: Blob;
+  file: ArrayBuffer;
   createdDate: Date;
 }

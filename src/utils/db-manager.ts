@@ -42,7 +42,7 @@ class PDFIndexedDB {
     return this.db;
   }
 
-  public async addPDF({ text, file }: { text: string; file: File }): Promise<PDFEntry> {
+  public async addPDF({ text, file }: { text: string; file: ArrayBuffer }): Promise<PDFEntry> {
     const db = await this.initializeDatabase();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, "readwrite");

@@ -4,9 +4,11 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import Loader from "./components/loader";
 
-const PdfViewer = ({ pdf }) => {
-  console.log(pdf);
+interface Props {
+  pdf: ArrayBuffer;
+}
 
+const PdfViewer = ({ pdf }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
